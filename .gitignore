@@ -1,0 +1,4 @@
+*.docx
+*.xlsx
+.ipynb_checkpoints/*
+.DS_Store
