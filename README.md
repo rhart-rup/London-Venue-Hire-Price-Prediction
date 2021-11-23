@@ -4,6 +4,10 @@ The [Tagvenue](https://www.tagvenue.com/) website is basically an Air BnB for fi
 
 In this project, we have scraped all **London** event spaces from the Tagvenue website. We plan to clean and model this data to predict the price of event spaces in London using predictors such as capacity, area, location, facilities, licences etc. This repository will be updated as we make progress. 
 
+## Notebooks
+
+- **Tag_Venue_Scrape.ipynb** - Performs web scrape of Tagvenue, extracting data from all event spaces in London and creates 2 datasets: *tag_venue_space_data.csv* and *tag_venue_space_prices.csv*
+
 ## Datasets
 
 At present, we only have the raw scraped data. This data is split into 2 tables as outlined below: 
