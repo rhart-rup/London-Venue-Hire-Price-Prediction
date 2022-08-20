@@ -7,17 +7,24 @@ In this project, we have scraped all **London** event spaces from the Tagvenue w
 ## Notebooks
 
 - **Tag_Venue_Scrape.ipynb** - Performs web scrape of Tagvenue, extracting data from all event spaces in London and creates 2 datasets: *tag_venue_space_data.csv* and *tag_venue_space_prices.csv*
+- **tag_data_clean.ipynb** - Cleans the raw scraped datasets, including dealing with null or missing values, identifying erroneous data and re-engneering variables as required to make them sensible for exploration and modelling.
 
 ## Datasets
 
-At present, we only have the raw scraped data. This data is split into 2 tables as outlined below: 
+At present, we have the raw scraped data and the cleaned version of this data. Each data set has the same naming convention and description, but are stored in different locations of this repo to indicate if they are clean or raw.
+
+Each dataset consists of 2 csv files described below: 
 
 - **tag_venue_space_data.csv**: Stores general information on each space, e.g. location, area, capacity, catering details, features etc. One row per event space. 
 - **tag_venue_space_prices.csv**: Stores price data for each space. The price data is a bit complex, with prices shown for different days of the week and for different time periods e.g. per hour or per day. Each row is one price offering for a single space on a single day of the week. Each space will have many price offerings and thus each space will have many rows in the csv.
 
 ## Metadata
-### tag_venue_space_data.csv
-Data |Data type|Description
+### Cleaned Data
+(To Be Finished)
+
+### Raw Scraped Data
+#### tag_venue_space_data.csv
+Column |Data type|Description
 :---|:---:|:---
 space_url|string|url of event space's web page on Tagvenue.com
 venue_url|string|url of the venue web page on Tagvenue.com. The venue owns the space i.e. the event space resides within the venue. 
@@ -39,7 +46,7 @@ catering section part 2: columns 'Buyout fee for external catering' to 'Alcohol 
 features section: columns 'Wi-Fi' to 'Disabled access toilets'|bool|Each column header is a feature option (e.g. 'Wi-Fi') and the value will be True or False to indicate if the space offers that feature option.  If the value is missing, then the web page for the space did not indicate whether this feature option is available or not.
 
 ### tag_venue_space_prices.csv
-Data |Data type|Description
+Column |Data type|Description
 :---|:---:|:---
 space_url|string|url of the space web page on Tagvenue.com
 venue_name|string|Name of venue
