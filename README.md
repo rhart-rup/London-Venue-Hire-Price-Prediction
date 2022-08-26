@@ -18,9 +18,10 @@ Each dataset consists of 2 csv files described below:
 - **tag_venue_space_data.csv**: Stores general information on each space, e.g. location, area, capacity, catering details, features etc. One row per event space. 
 - **tag_venue_space_prices.csv**: Stores price data for each space. The price data is a bit complex, with prices shown for different days of the week and for different time periods e.g. per hour or per day. Each row is one price offering for a single space on a single day of the week. Each space will have many price offerings and thus each space will have many rows in the csv.
 
-## Metadata
-### Cleaned Data
-#### tag_venue_space_data.csv
+## Metadata - Cleaned Data
+Below we show metadata for the cleaned **tag_venue_space_data.csv** and **tag_venue_space_prices.csv** files: 
+
+### tag_venue_space_data.csv
 Column|Data type|Description
 :---|:---:|:---
 space_url|string|url of event space's web page on Tagvenue.com. Can be used as unique key for each space. 
@@ -96,18 +97,22 @@ space_name|string|Name of event space
 latitude|float|Latitude of venue
 longitude|float|Longitude of venue
 day_of_week|string|Day of week the price is for e.g. 'Monday' means this is the price to rent space on a Monday. 
-pricing_period|string|Description of time period that the price is for e.g. 'per morning' means you can hire the space at this price for a morning. 
+time_period_desc|string|Description of time period that the price is for e.g. 'per morning' means you can hire the space at this price for a morning. 
+time_period|string|A start and end time that precisely defines the time period that this price will hire the space for. It has the format 'start time - end time' and the times are written in integer format e.g. '6 - 17' means start time 6 am till end time 5 pm.
 time_from|int|Start time of hire period, in 24 hour time format and stored as an integer. For example, 9.00 am is 9, 4 pm is 16 and 12 pm is 0.  
 time_to|int|End time of hire period, in 24 hour time format and stored as an integer. For example, 9.00 am is 9, 4 pm is 16 and 12 pm is 0.  
-time_period|int|Hours the space will be booked for at this price (difference in time between time_from and time_to). 
+time_length|int|Hours the space will be booked for at this price (difference in time between time_from and time_to). 
 total_price|int|The total price in UK £s required to book the space on the day of week specified (in day_of_week) and for the time period specified (in time_period). 
 price_type|string|Type of pricing e.g. 'min spend',  'hire fee' etc. or in the case of a combined price it could be 'min spend + hire'. The possible prices types are: 'hire fee', 'min. spend', 'per person', 'hire fee per hour', 'hire fee + min. spend', 'hire fee + per person'. 
 rent_price_split|int|The amount of the total_price that is due to a hire fee (in UK £s). This will be null unless price_type is 'hire fee + min. spend' or 'hire fee + per person'. 
 min_spend_split|int|The amount of the total_price that is due to a minimum spend (in UK £s). This will be null unless price_type is 'hire fee + min. spend' or 'hire fee + per person'. 
 per_person_split|int|The amount of the total_price that is due to a per person fee (in UK £s). This will be null unless price_type is 'hire fee + min. spend' or 'hire fee + per person'.
 
-### Raw Scraped Data
-#### tag_venue_space_data.csv
+
+## Metadata - Raw Scraped Data
+Below we show metadata for the raw scraped **tag_venue_space_data.csv** and **tag_venue_space_prices.csv** files:
+
+### tag_venue_space_data.csv
 Column |Data type|Description
 :---|:---:|:---
 space_url|string|url of event space's web page on Tagvenue.com
