@@ -6,9 +6,9 @@ In this project, we have scraped all **London** event spaces from the Tagvenue w
 
 ## Notebooks
 
-- **Tag_Venue_Scrape.ipynb** - Performs web scrape of Tagvenue, extracting data from all event spaces in London and creates 2 datasets: *tag_venue_space_data.csv* (characteristics of each space e.g. location, size etc.) and *tag_venue_space_prices.csv* (prices to rent each space). 
-- **tag_data_clean.ipynb** - Cleans the raw scraped datasets, including dealing with null or missing values, identifying erroneous data and re-engineering variables as required to make them sensible for exploration and modelling.
-- **price_data_exploration.ipynb** - Explores the relatively complicated price data in *tag_venue_space_prices.csv* to understand the prices and decide what prices we will actually model. Creates 3 separate datasets for modeling (each dataset is a subset of the *tag_venue_space_prices.csv* that has been merged with the associated data in *tag_venue_space_data.csv* and is thus ready for modeling).
+- [tag_Venue_Scrape.ipynb](https://nbviewer.org/github/rhart-rup/tagvenue-ML-pricing-prediction/blob/master/data_scraping/Tag_Venue_Scrape.ipynb) - Performs web scrape of Tagvenue, extracting data from all event spaces in London and creates 2 datasets: *tag_venue_space_data.csv* (characteristics of each space e.g. location, size etc.) and *tag_venue_space_prices.csv* (prices to rent each space). 
+- [tag_data_clean.ipynb](https://nbviewer.org/github/rhart-rup/tagvenue-ML-pricing-prediction/blob/master/data_cleaning/tag_data_clean.ipynb) - Cleans the raw scraped datasets, including dealing with null or missing values, identifying erroneous data and re-engineering variables as required to make them sensible for exploration and modelling.
+- [price_data_exploration.ipynb](https://nbviewer.org/github/rhart-rup/tagvenue-ML-pricing-prediction/blob/master/price_data_exploration/price_data_exploration.ipynb) - Explores the relatively complicated price data in *tag_venue_space_prices.csv* to understand the prices and decide what prices we will actually model. Creates 3 separate datasets for modeling (each dataset is a subset of the *tag_venue_space_prices.csv* that has been merged with the associated data in *tag_venue_space_data.csv* and is thus ready for modeling).
 
 ## Datasets
 The data section of the repo is described below: 
