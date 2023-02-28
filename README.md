@@ -2,25 +2,31 @@
 ![alt text](images/tag_venue_home_page.png)
 The [Tagvenue](https://www.tagvenue.com/) website is basically an Air BnB for finding and booking venues for an event. The website hosts thousands of venues in the UK that can be booked for events such as weddings, work drinks, birthdays etc. Each venue has one or more **spaces** available to be booked.
 
-In this project, we have scraped all **London** event spaces from the Tagvenue website. We plan to clean and model this data to predict the price of event spaces in London using predictors such as capacity, area, location, facilities, licences etc. This repository will be updated as we make progress. 
+In this project, we have scraped all **London** event spaces from the Tagvenue website. We plan to clean and model this data to predict the price of event spaces in London using predictors such as capacity, area, location, facilities, licences etc. In particular, we are interested in predicting **minimum spend** and **Hire Fee** prices. This repository will be updated as we make progress. 
 
 ## Notebooks
 
-- **Tag_Venue_Scrape.ipynb** - Performs web scrape of Tagvenue, extracting data from all event spaces in London and creates 2 datasets: *tag_venue_space_data.csv* and *tag_venue_space_prices.csv*
-- **tag_data_clean.ipynb** - Cleans the raw scraped datasets, including dealing with null or missing values, identifying erroneous data and re-engneering variables as required to make them sensible for exploration and modelling.
-- **price_data_exploration.ipynb** - Explores the relatively complicated price data in *tag_venue_space_prices.csv* to understand the prices and decide what prices we will actually model. Creates 3 separate datasets for modeling (each dataset is a subset of the *tag_venue_space_prices.csv* that has been merged with the associated data in *tag_venue_space_data.csv* and is thus ready for modeling): 
-  - *min_spend_data.csv* - To model **Min. Spend** prices
-  - *hire_fee_data.csv* - To model **Hire fee** prices
-  - *all_hire_fee_and_min_spend_data.csv* - To test the impact of changing the price data used in either the **hire fee** or **min. spend** models according to the time period of the prices (e.g. 'Per morning' prices vs 'Per afternoon etc. see *price_data_exploration.ipynb* for more details)
+- **Tag_Venue_Scrape.ipynb** - Performs web scrape of Tagvenue, extracting data from all event spaces in London and creates 2 datasets: *tag_venue_space_data.csv* (characteristics of each space e.g. location, size etc.) and *tag_venue_space_prices.csv* (prices to rent each space). 
+- **tag_data_clean.ipynb** - Cleans the raw scraped datasets, including dealing with null or missing values, identifying erroneous data and re-engineering variables as required to make them sensible for exploration and modelling.
+- **price_data_exploration.ipynb** - Explores the relatively complicated price data in *tag_venue_space_prices.csv* to understand the prices and decide what prices we will actually model. Creates 3 separate datasets for modeling (each dataset is a subset of the *tag_venue_space_prices.csv* that has been merged with the associated data in *tag_venue_space_data.csv* and is thus ready for modeling).
 
 ## Datasets
+The data section of the repo is described below: 
 
-At present, we have the raw scraped data and the cleaned version of this data. Each data set has the same naming convention and description, but are stored in different locations of this repo to indicate if they are clean or raw.
+- **raw_scraped_data**: 
+  1. *tag_venue_space_data.csv* - Stores general information on each space, e.g. location, area, capacity, catering details, features etc. One row per event space.
+  2. *tag_venue_space_prices.csv* - Stores price data for each space. The price data is a bit complex, with prices shown for different days of the week and for different time periods e.g. per hour or per day. Each row is one price offering for a single space on a single day of the week. Each space will have many price offerings and thus each space will have many rows in the csv.
+- **cleaned_data**:
+  1. *tag_venue_space_data.csv* - same as above but after the data has been cleaned.  
+  2. *tag_venue_space_prices.csv* - same as above but after the data has been cleaned. 
+- **datasets_for_modeling**: 
+*Each dataset is a merger between prices data and event space data, so each row has both pricing data and space specific data e.g. location, size etc.*
+  1. *min_spend_data.csv* - Contains all **minimum spend** prices to book a space for an evening or for a day. One row per event space.
+  2. *hire_fee_data.csv* - Contains all **hire fee** prices to book a space for a day. One row per event space. 
+  3. *all_hire_fee_and_min_spend_data.csv* - Contains all **minimum spend** and **hire fee** prices to book spaces for any time (morning, afternoon, evening and day). Multiple rows per event space (where a space offers multiple prices for different times of day). 
 
-Each dataset consists of 2 csv files described below: 
-
-- **tag_venue_space_data.csv**: Stores general information on each space, e.g. location, area, capacity, catering details, features etc. One row per event space. 
-- **tag_venue_space_prices.csv**: Stores price data for each space. The price data is a bit complex, with prices shown for different days of the week and for different time periods e.g. per hour or per day. Each row is one price offering for a single space on a single day of the week. Each space will have many price offerings and thus each space will have many rows in the csv.
+## Metadata - datasets for modeling
+The 3 datasets for modeling **min_spend_data.csv**, **hire_fee_data.csv** and **all_hire_fee_and_min_spend_data.csv** all use columns from the cleaned **tag_venue_space_data.csv** and **tag_venue_space_prices.csv** files. There metadata can found below. 
 
 ## Metadata - Cleaned Data
 Below we show metadata for the cleaned **tag_venue_space_data.csv** and **tag_venue_space_prices.csv** files: 
@@ -150,4 +156,4 @@ day_of_week|string|Day of week the price is for e.g. 'Monday' means this is the 
 pricing_period|string|Description of time period that that you can reserve the space for at this price e.g. 'per morning' 
 time_period|string|Hours the space will be booked for at this price
 price|string|Price in UK £s to book the space for the given day_of_week and pricing_period / time_period. This can be a combined price e.g. '£50 + £100' which is why it is a string datatype. The price_type column will indicate what each of the two prices quoted refer to. 
-price_type|string|Type of pricing e.g. 'min spend',  'hire' etc. or in the case of a combined price it could be 'min spend + hire' 
+price_type|string|Type of pricing e.g. 'min spend',  'hire' etc. or in the case of a combined price it could be 'min spend + hire'
