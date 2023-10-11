@@ -2,6 +2,7 @@
 In this project, we aimed to build an **ML model** to predict the **price to hire a venue space in London** (e.g. for work drinks or family event etc.) based on the characteristics of the space (location, capacity etc.). Venues could use this model to optimise their pricing and maximise their revenues, ensuring they are not under or over priced.
 
 The model was trained on data that we scraped from the [Tagvenue](https://www.tagvenue.com/) website. Tagvenue provides a service similar to AirBnB but for finding and booking venues for an event. The website hosts thousands of venues in the UK that can be booked for events.
+
 ![alt text](images/tag_venue_home_page.png)
 
 ## Repo Structure and Notebooks
@@ -13,7 +14,7 @@ The project code and detailed explanations of what we did, the decisons we made 
 - **price_modelling** -> [min_spend_modeling.ipynb](https://nbviewer.org/github/rhart-rup/tagvenue-ML-pricing-prediction/blob/master/price_modeling/min_spend_modeling.ipynb) - Explores the merged data above to identify predictors for modelling price, including the engineering of geographical based features. Price is then modelled using different methods e.g. OLS, ridge, KNN etc. using cross validation to tune hyperparameters. The best model in training was then evaluated using a test set. 
 
 ## Project Outcomes
-### Overall Outcome
+### Overall Outcome
 - Our best model was a **Gradient Boosted Tree Reggressor** with a test error of **£977** (for a median price of **£1000**)
 - The model we created was **not** accurate enough to be useful and so unfortunately we did not succeed in creating a useful venue hire pricing model. 
 
