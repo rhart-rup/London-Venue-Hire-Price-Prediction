@@ -1,37 +1,56 @@
-# Tagvenue ML Pricing Prediction
+# London Venue Hire Price Prediction
+In this project, we aimed to build an **ML model** to predict the **price to hire a venue space in London** (e.g. for work drinks or family event etc.) based on the characteristics of the space (location, capacity etc.). Venues could use this model to optimise their pricing and maximise their revenues, ensuring they are not under or over priced.
+
+The model was trained on data that we scraped from the [Tagvenue](https://www.tagvenue.com/) website. Tagvenue provides a service similar to AirBnB but for finding and booking venues for an event. The website hosts thousands of venues in the UK that can be booked for events.
 ![alt text](images/tag_venue_home_page.png)
-The [Tagvenue](https://www.tagvenue.com/) website is basically an Air BnB for finding and booking venues for an event. The website hosts thousands of venues in the UK that can be booked for events such as weddings, work drinks, birthdays etc. Each venue has one or more **spaces** available to be booked.
 
-In this project, we have scraped all **London** event spaces from the Tagvenue website. We plan to clean and model this data to predict the price of event spaces in London using predictors such as capacity, area, location, facilities, licences etc. In particular, we are interested in predicting **minimum spend** and **Hire Fee** prices. This repository will be updated as we make progress. 
+## Repo Structure and Notebooks
+The project code and detailed explanations of what we did, the decisons we made and insights we found are all detailed in the Jupyter notebooks. The location of each notebook in the repo and a brief description of what it contains is detailed below. View a notebook by clicking on its name:  
 
-## Notebooks
+- **data_scraping** -> [tag_Venue_Scrape.ipynb](https://nbviewer.org/github/rhart-rup/tagvenue-ML-pricing-prediction/blob/master/data_scraping/Tag_Venue_Scrape.ipynb) - Performs web scrape of Tagvenue, extracting data from all event spaces in London and creates 2 datasets: *tag_venue_space_data.csv* (characteristics of each space e.g. location, size etc.) and *tag_venue_space_prices.csv* (prices to rent each space). 
+- **data_cleaning** -> [tag_data_clean.ipynb](https://nbviewer.org/github/rhart-rup/tagvenue-ML-pricing-prediction/blob/master/data_cleaning/tag_data_clean.ipynb) - Cleans the raw scraped datasets, including dealing with null or missing values, identifying erroneous data and re-engineering variables as required to make them sensible for exploration and modelling.
+- **price_data_exploration** -> [price_data_exploration.ipynb](https://nbviewer.org/github/rhart-rup/London-Venue-Hire-Price-Prediction/blob/master/price_data_exploration/price_data_exploration.ipynb) - Explores the relatively complicated price data in *tag_venue_space_prices.csv* to understand the prices and decide what prices we will actually model. Creates 3 separate datasets for modeling (each dataset is a subset of the *tag_venue_space_prices.csv* that has been merged with the associated data in *tag_venue_space_data.csv* and is thus ready for modeling).
+- **price_modelling** -> [min_spend_modeling.ipynb](https://nbviewer.org/github/rhart-rup/tagvenue-ML-pricing-prediction/blob/master/price_modeling/min_spend_modeling.ipynb) - Explores the merged data above to identify predictors for modelling price, including the engineering of geographical based features. Price is then modelled using different methods e.g. OLS, ridge, KNN etc. using cross validation to tune hyperparameters. The best model in training was then evaluated using a test set. 
 
-- [tag_Venue_Scrape.ipynb](https://nbviewer.org/github/rhart-rup/tagvenue-ML-pricing-prediction/blob/master/data_scraping/Tag_Venue_Scrape.ipynb) - Performs web scrape of Tagvenue, extracting data from all event spaces in London and creates 2 datasets: *tag_venue_space_data.csv* (characteristics of each space e.g. location, size etc.) and *tag_venue_space_prices.csv* (prices to rent each space). 
-- [tag_data_clean.ipynb](https://nbviewer.org/github/rhart-rup/tagvenue-ML-pricing-prediction/blob/master/data_cleaning/tag_data_clean.ipynb) - Cleans the raw scraped datasets, including dealing with null or missing values, identifying erroneous data and re-engineering variables as required to make them sensible for exploration and modelling.
-- [price_data_exploration.ipynb](https://rhart-rup.github.io/tagvenue-ML-pricing-prediction/price_data_exploration/price_data_exploration.html) - Explores the relatively complicated price data in *tag_venue_space_prices.csv* to understand the prices and decide what prices we will actually model. Creates 3 separate datasets for modeling (each dataset is a subset of the *tag_venue_space_prices.csv* that has been merged with the associated data in *tag_venue_space_data.csv* and is thus ready for modeling).
+## Project Outcomes
+### Overall Outcome
+- Our best model was a **Gradient Boosted Tree Reggressor** with a test error of **£977** (for a median price of **£1000**)
+- The model we created was **not** accurate enough to be useful and so unfortunately we did not succeed in creating a useful venue hire pricing model. 
+
+### Lessons Learned
+
+- We think the poor performance of the model is mainly due to the poor quality of the Tagvenue data we collected. During exploration, we only found a single highly correlated variable ('max_seated_or_standing'). Neither the engineering of geographical based pricing features nor the use of different models ever dramatically improved the performance.
+- Either the pricing data was unreliable (perhaps because venues rarely update the prices or provided misleading or inaccurate pricing) or the key variables that set venue space pricing are absent from the Tagvenue website.
+- A key takewaway is summed up in the phrase 'bad data in, bad data out' - In future, we would perform basic correlation / exploration checks on data as soon as possible (i.e. before a thorough cleaning or in depth exploration). You are probably better off spending the time finding new, better data if the critical correlations / associations with the target variable are missing.
+
+### Project Milestones
+- Scraped and cleaned data for over **4700 venue spaces** from Tagvenue.com 
+- Thoroughly explored the scraped data, including a complex exploration of the pricing data and the engineering of geographical based pricing features. 
+- Modelled prices using OLS, Ridge, Lasso, elastic net, KNN and gradient boosted trees, including the creation of custom scikit-learn transformers and the use of cross validation to tune  hyperparameters and select variables. 
 
 ## Datasets
-The data section of the repo is described below: 
+All data used in the project was stored in the **data** folder. The below table describes each dataset: 
 
-- **raw_scraped_data**: 
-  1. *tag_venue_space_data.csv* - Stores general information on each space, e.g. location, area, capacity, catering details, features etc. One row per event space.
-  2. *tag_venue_space_prices.csv* - Stores price data for each space. The price data is a bit complex, with prices shown for different days of the week and for different time periods e.g. per hour or per day. Each row is one price offering for a single space on a single day of the week. Each space will have many price offerings and thus each space will have many rows in the csv.
-- **cleaned_data**:
-  1. *tag_venue_space_data.csv* - same as above but after the data has been cleaned.  
-  2. *tag_venue_space_prices.csv* - same as above but after the data has been cleaned. 
-- **datasets_for_modeling**: 
-*Each dataset is a merger between prices data and event space data, so each row has both pricing data and space specific data e.g. location, size etc.*
-  1. *min_spend_data.csv* - Contains all **minimum spend** prices to book a space for an evening or for a day. One row per event space.
-  2. *hire_fee_data.csv* - Contains all **hire fee** prices to book a space for a day. One row per event space. 
-  3. *all_hire_fee_and_min_spend_data.csv* - Contains all **minimum spend** and **hire fee** prices to book spaces for any time (morning, afternoon, evening and day). Multiple rows per event space (where a space offers multiple prices for different times of day). 
+|Folder|File Name|Description|
+|-|---|--|
+|raw_scraped_data|tag_venue_space_data.csv|Stores general information on each space, e.g. location, area, capacity, catering details, features etc. One row per event space.|
+|raw_scraped_data|tag_venue_space_prices.csv|Stores price data for each space. The price data is a bit complex, with prices shown for different days of the week and for different time periods e.g. per hour or per day. Each row is one price offering for a single space on a single day of the week. Each space will have many price offerings and thus each space will have many rows in the csv.|
+|cleaned_data|tag_venue_space_data.csv|same as above but after the data has been cleaned|
+|cleaned_data|tag_venue_space_prices.csv|same as above but after the data has been cleaned|
+|datasets_for_modeling|min_spend_data.csv|Contains all **minimum spend** prices to book a space for an evening or for a day. One row per event space.
+|datasets_for_modeling|hire_fee_data.csv|Contains all **hire fee** prices to book a space for a day. One row per event space.|
+|datasets_for_modeling|all_hire_fee_and_min_spend_data.csv|Contains all **minimum spend** and **hire fee** prices to book spaces for any time (morning, afternoon, evening and day). Multiple rows per event space (where a space offers multiple prices for different times of day).|
 
-## Metadata - datasets for modeling
+## Metadata For Datasets
+This section details metadata for each dataset (organised by data folder name e.g. **cleaned_data**):
+
+### datasets_for_modeling
 The 3 datasets for modeling **min_spend_data.csv**, **hire_fee_data.csv** and **all_hire_fee_and_min_spend_data.csv** all use columns from the cleaned **tag_venue_space_data.csv** and **tag_venue_space_prices.csv** files. There metadata can found below. 
 
-## Metadata - Cleaned Data
+### cleaned_data
 Below we show metadata for the cleaned **tag_venue_space_data.csv** and **tag_venue_space_prices.csv** files: 
 
-### tag_venue_space_data.csv
+#### tag_venue_space_data.csv
 Column|Data type|Description
 :---|:---:|:---
 space_url|string|url of event space's web page on Tagvenue.com. Can be used as unique key for each space. 
@@ -97,7 +116,7 @@ Disabled_access_toilets|bool|Disabled access toilets are available in the space 
 Ground_level|bool|The space is on ground level (True/False)
 Lift_to_all_floors|bool|A lift to all floors is available in the venue (True/False).
 
-### tag_venue_space_prices.csv
+#### tag_venue_space_prices.csv
 Column|Data type|Description
 :---|:---:|:---
 space_url|string|url of event space's web page on Tagvenue.com. Can be used as unique key for each space. 
@@ -119,10 +138,10 @@ min_spend_split|int|The amount of the total_price that is due to a minimum spend
 per_person_split|int|The amount of the total_price that is due to a per person fee (in UK £s). This will be null unless price_type is 'hire fee + min. spend' or 'hire fee + per person'.
 
 
-## Metadata - Raw Scraped Data
+### raw_scraped_data
 Below we show metadata for the raw scraped **tag_venue_space_data.csv** and **tag_venue_space_prices.csv** files:
 
-### tag_venue_space_data.csv
+#### tag_venue_space_data.csv
 Column |Data type|Description
 :---|:---:|:---
 space_url|string|url of event space's web page on Tagvenue.com
@@ -144,7 +163,7 @@ catering section part 1: columns 'Approved caterers only' to 'Venue provides alc
 catering section part 2: columns 'Buyout fee for external catering' to 'Alcohol licence until 21:00'|bool|Each column header is a catering option (e.g. 'Halal menu') and the value will be True or False to indicate if the space offers that catering option.  If the value is missing, then the web page for the space did not indicate whether this catering option is available or not. 
 features section: columns 'Wi-Fi' to 'Disabled access toilets'|bool|Each column header is a feature option (e.g. 'Wi-Fi') and the value will be True or False to indicate if the space offers that feature option.  If the value is missing, then the web page for the space did not indicate whether this feature option is available or not.
 
-### tag_venue_space_prices.csv
+#### tag_venue_space_prices.csv
 Column |Data type|Description
 :---|:---:|:---
 space_url|string|url of the space web page on Tagvenue.com
